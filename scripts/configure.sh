@@ -25,6 +25,9 @@ sed -e 's|__hostname__|'$HADOOP_MASTER_NODE'|'  -e 's|__port__|'$HADOOP_NAMENODE
 
 sed -e 's|__hostname__|'$HADOOP_MASTER_NODE'|'  -e 's|__port__|'$HADOOP_JOBTRACKER_IPC_PORT'|' $HPCHADOOP/etc/xml/mapred-site-template.xml  > $HADOOP_ROOT/conf/mapred-site.xml
 
+#Set log directory
+sed -e 's|__log__|'$HADOOP_LOG'|' $HPCHADOOP/etc/hadoop_config/hadoop-env-template.sh > $HADOOP_ROOT/conf/hadoop-env.sh
+
 cp $HPCHADOOP/etc/xml/hdfs-site-template.xml $HADOOP_ROOT/conf/hdfs-site.xml
 
 #Create log and data directory
@@ -37,9 +40,6 @@ while read NODE; do
 	ssh $NODE "rm -rf /tmp/hadoop_data; ln -s $HADOOP_DATA/$NODE /tmp/hadoop_data"
     fi
 done < $NODEFILE
-
-#Set log directory
-echo "export HADOOP_LOG_DIR=$HADOOP_LOG" >> $HADOOP_ROOT/conf/hadoop-env.sh
 
 #Format HDFS
 ssh $MASTER_NODE "$HADOOP_ROOT/bin/hadoop namenode -format"
