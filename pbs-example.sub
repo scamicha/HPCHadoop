@@ -3,6 +3,8 @@
 #PBS -q batch
 #PBS -N hadoop_job
 #PBS -l nodes=4:ppn=1
+#PBS -l walltime=1:00:00
+#PBS -l gres=ccm
 #PBS -o hadoop_run.out
 #PBS -e hadoop_run.err
 

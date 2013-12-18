@@ -12,7 +12,7 @@ fi
 NODEFILE="$HADOOP_ROOT/conf/nodefile"
 sort -u $PBS_NODEFILE > $NODEFILE
 export HADOOP_MASTER_NODE=`head -n 1 $NODEFILE`
-tail +n 2 $NODEFILE > $HADOOP_ROOT/conf/slaves
+tail -n +2 $NODEFILE > $HADOOP_ROOT/conf/slaves
 
 #Find some ports
 export HADOOP_JOBTRACKER_IPC_PORT=`expr $HADOOP_NAMENODE_IPC_PORT + 1`
