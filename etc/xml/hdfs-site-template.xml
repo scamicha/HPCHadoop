@@ -6,7 +6,7 @@
 <configuration>
 	<property>
   		<name>dfs.replication</name>
-    		<value>3</value>
+    		<value>1</value>
       		<description>Default block replication.</description>
         </property>
 
