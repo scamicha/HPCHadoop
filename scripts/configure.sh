@@ -1,13 +1,12 @@
 #!/bin/bash
 
+echo "In configure"
+
 if [ $HADOOP_LOCAL ]; then
     LOCAL_TMP=$HADOOP_DATA
 else
     LOCAL_TMP="/tmp/hadoop_data"
 fi
-
-#Clean out config directory
-rm -rf $HPCHADOOP/etc/hadoop_config/*
 
 #Create list of nodes given from PBS
 NODEFILE="$HADOOP_ROOT/conf/nodefile"
