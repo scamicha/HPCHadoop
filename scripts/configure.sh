@@ -41,10 +41,10 @@ while read NODE; do
 done < $NODEFILE
 
 #Format HDFS
-ssh $MASTER_NODE "$HADOOP_ROOT/bin/hadoop namenode -format"
+ssh $HADOOP_MASTER_NODE "$HADOOP_ROOT/bin/hadoop namenode -format"
 
 #start Hadoop cluster
-ssh $MASTER_NODE "$HADOOP_ROOT/bin/start-all.sh"
+ssh $HADOOP_MASTER_NODE "$HADOOP_ROOT/bin/start-all.sh"
 
 #wait
 sleep 120
