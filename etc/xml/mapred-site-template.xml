@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+
+<!-- Put site-specific property overrides in this file. -->
+
+<configuration>
+	<property>
+		<name>mapred.job.tracker</name>
+		<value>__hostname__:__port__</value>
+		<final>true</final>
+	</property>
+
+	<property>
+		<name>mapred.system.dir</name>
+		<value>/tmp/hadoop/mapred/system</value>
+		<final>true</final>
+	</property>
+
+	<property>
+		<name>mapred.tasktracker.map.tasks.maximum</name>
+		<value>20</value>
+		<final>true</final>
+	</property>
+
+	<property>
+		<name>mapred.tasktracker.reduce.tasks.maximum</name>
+		<value>10</value>
+		<final>true</final>
+	</property>
+
+	<property>
+		<name>mapred.child.java.opts</name>
+		<value>-Xmx1536m</value>
+		<!-- Not marked as final so jobs can include JVM debugging options -->
+	</property>
+</configuration>

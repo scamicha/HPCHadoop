@@ -1,0 +1,16 @@
+#!/bin/bash
+
+#PBS -q batch
+#PBS -N hadoop_job
+#PBS -l nodes=4:ppn=1
+#PBS -o hadoop_run.out
+#PBS -e hadoop_run.err
+
+### User defined variables
+
+export HPCHADOOP=/N/u/scamicha/BigRed2/HPCHadoop
+
+
+. $HPCHADOOP/conf/env.sh
+
+ccmrun $HPCHADOOP/scripts/hadoop_launcher.sh
