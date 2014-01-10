@@ -18,13 +18,13 @@
 
 	<property>
 		<name>mapred.tasktracker.map.tasks.maximum</name>
-		<value>20</value>
+		<value>18</value>
 		<final>true</final>
 	</property>
 
 	<property>
 		<name>mapred.tasktracker.reduce.tasks.maximum</name>
-		<value>10</value>
+		<value>12</value>
 		<final>true</final>
 	</property>
 

@@ -5,9 +5,14 @@ $HADOOP_ROOT/bin/stop-all.sh
 sleep 60
 
 NODEFILE="$HADOOP_ROOT/conf/nodefile"
-GLOBALLOG="$PBS_O_WORKDIR/$PBS_JOBID.hadoop.log"
+
+mkdir $HADOOP_GLOBAL_LOG
 
 #Remove log and data directories
-while read NODE; do
-    ssh $NODE "echo 'Log from $NODE:'>> $GLOBALLOG; cat $HADOOP_LOG/* >> $GLOBALLOG; rm -rf $HADOOP_DATA $HADOOP_LOG; rm -f $HADOOP_ROOT/conf/slaves $HADOOP_ROOT/conf/nodefile"
-done < $NODEFILE 
+for NODE in `cat $NODEFILE`; do
+    echo $NODE
+    ssh $NODE "mkdir $HADOOP_GLOBAL_LOG/$NODE; cp -R $HADOOP_LOG/* $HADOOP_GLOBAL_LOG/$NODE"
+    echo "done $NODE"
+done
+
+#rm -f $HADOOP_ROOT/conf/slaves $HADOOP_ROOT/conf/nodefile $HADOOP_ROOT/conf/masters
