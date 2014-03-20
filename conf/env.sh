@@ -10,10 +10,17 @@ export HADOOP_DATA=/tmp/hadoop/data
 export HADOOP_LOG=/tmp/hadoop/log
 
 #Globally accessible directory to copy logs to
-export HADOOP_GLOBAL_LOG="$PBS_O_WORKDIR/$PBS_JOBID.hadoop.log"
+export HADOOP_FINAL_LOG="$PBS_O_WORKDIR/$PBS_JOBID.hadoop.log"
 
 # Is the data store node local?
 export HADOOP_LOCAL=true
+
+# If HADOOP_LOCAL is false then this must be set to the 
+# globally accessible scratch directory you want to map to
+if [ ! $HADOOP_LOCAL ]; then
+    export HADOOP_GLOBAL_DATA=/N/dc2/scratch/scamicha/HPCHADOOP_TEST/DATA
+    export HADOOP_GLOBAL_LOG=/N/dc2/scratch/scamicha/HPCHADOOP_TEST/LOG
+fi
 
 # Starting port to search
 export HADOOP_NAMENODE_IPC_PORT=8020

@@ -1,11 +1,5 @@
 #!/bin/bash
 
-if [ $HADOOP_LOCAL ]; then
-    LOCAL_TMP=$HADOOP_DATA
-else
-    LOCAL_TMP="/tmp/hadoop_data"
-fi
-
 #Create list of nodes given from PBS
 NODEFILE="$HADOOP_ROOT/conf/nodefile"
 sort -u $PBS_NODEFILE > $NODEFILE
@@ -19,7 +13,7 @@ HADOOP_NAMENODE_IPC_PORT=`$HPCHADOOP/scripts/find_port.sh $HADOOP_NAMENODE_IPC_P
 HADOOP_JOBTRACKER_IPC_PORT=`$HPCHADOOP/scripts/find_port.sh $HADOOP_JOBTRACKER_IPC_PORT`
 
 #Copy over Hadoop files
-sed -e 's|__hostname__|'$HADOOP_MASTER_NODE'|'  -e 's|__port__|'$HADOOP_NAMENODE_IPC_PORT'|' -e 's|__data__|'$LOCAL_TMP'|' $HPCHADOOP/etc/xml/core-site-template.xml  > $HADOOP_ROOT/conf/core-site.xml
+sed -e 's|__hostname__|'$HADOOP_MASTER_NODE'|'  -e 's|__port__|'$HADOOP_NAMENODE_IPC_PORT'|' -e 's|__data__|'$HADOOP_DATA'|' $HPCHADOOP/etc/xml/core-site-template.xml  > $HADOOP_ROOT/conf/core-site.xml
 
 sed -e 's|__hostname__|'$HADOOP_MASTER_NODE'|'  -e 's|__port__|'$HADOOP_JOBTRACKER_IPC_PORT'|' $HPCHADOOP/etc/xml/mapred-site-template.xml  > $HADOOP_ROOT/conf/mapred-site.xml
 
@@ -30,13 +24,14 @@ cp $HPCHADOOP/etc/xml/hdfs-site-template.xml $HADOOP_ROOT/conf/hdfs-site.xml
 
 #Create log and data directory
 rm -rf /tmp/*
+
 for NODE in `cat $NODEFILE`; do
-    ssh $NODE "rm -rf $HADOOP_LOG; mkdir -p $HADOOP_LOG"
     if [ $HADOOP_LOCAL ]; then
 	ssh $NODE "rm -rf $HADOOP_DATA; mkdir -p $HADOOP_DATA"
+	ssh $NODE "rm -rf $HADOOP_LOG; mkdir -p $HADOOP_LOG"
     else
-	mkdir -p $HADOOP_DATA/$NODE
-	ssh $NODE "rm -rf /tmp/hadoop_data; ln -s $HADOOP_DATA/$NODE /tmp/hadoop_data"
+	ssh $NODE "rm -rf $HADOOP_DATA; mkdir -p $HADOOP_GLOBAL_DATA/$NODE; ln -s $HADOOP_GLOBAL_DATA/$NODE $HADOOP_DATA"
+	ssh $NODE "rm -rf $HADOOP_LOG; mkdir -p $HADOOP_GLOBAL_LOG/$NODE; ln -s $HADOOP_GLOBAL_LOG/$NODE $HADOOP_LOG"
     fi
 done
 

@@ -6,13 +6,18 @@ sleep 60
 
 NODEFILE="$HADOOP_ROOT/conf/nodefile"
 
-mkdir $HADOOP_GLOBAL_LOG
+mkdir $HADOOP_FINAL_LOG
 
 #Remove log and data directories
 for NODE in `cat $NODEFILE`; do
-    echo $NODE
-    ssh $NODE "mkdir $HADOOP_GLOBAL_LOG/$NODE; cp -R $HADOOP_LOG/* $HADOOP_GLOBAL_LOG/$NODE"
-    echo "done $NODE"
+    if [ $HADOOP_LOCAL ]; then
+	ssh $NODE "mkdir $HADOOP_FINAL_LOG/$NODE; cp -R $HADOOP_LOG/* $HADOOP_FINAL_LOG/$NODE"
+    else
+	ssh $NODE "mkdir $HADOOP_FINAL_LOG/$NODE; cp -R $HADOOP_LOG/* $HADOOP_FINAL_LOG/$NODE"
+    fi
 done
 
-#rm -f $HADOOP_ROOT/conf/slaves $HADOOP_ROOT/conf/nodefile $HADOOP_ROOT/conf/masters
+if [ ! $HADOOP_LOCAL ]; then
+    rm -rf $HADOOP_GLOBAL_DATA $HADOOP_GLOBAL_LOG
+fi
+rm -f $HADOOP_ROOT/conf/slaves $HADOOP_ROOT/conf/nodefile $HADOOP_ROOT/conf/masters
