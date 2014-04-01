@@ -12,7 +12,7 @@
 
 	<property>
 		<name>mapred.system.dir</name>
-		<value>/tmp/hadoop/mapred/system</value>
+		<value>__mapreddir__</value>
 		<final>true</final>
 	</property>
 

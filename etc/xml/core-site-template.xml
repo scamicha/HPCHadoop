@@ -12,7 +12,7 @@
 
 	<property>
 		<name>fs.default.name</name>
-		<value>hdfs://__hostname__:__port__/</value>
+		<value>__filesystem__</value>
 	</property>
 
 	<property>

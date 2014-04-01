@@ -3,17 +3,17 @@
 # Set to the location of your Hadoop installation
 export HADOOP_ROOT=/N/u/scamicha/BigRed2/hadoop/default
 
-# Local directory to use for HDFS
-export HADOOP_DATA=/tmp/hadoop/data
+# What filesystem to use? Choices are hdfs and lustre
+export HADOOP_FS=lustre
 
-# Local directory to use for Hadoop logs
-export HADOOP_LOG=/tmp/hadoop/log
+# Local directory to use for HDFS
+export HADOOP_DIR=/N/dc2/scratch/scamicha/HADOOP_LUSTRE
 
 #Globally accessible directory to copy logs to
 export HADOOP_FINAL_LOG="$PBS_O_WORKDIR/$PBS_JOBID.hadoop.log"
 
 # Is the data store node local?
-export HADOOP_LOCAL=false
+export HADOOP_LOCAL=true
 
 # If HADOOP_LOCAL is false then this must be set to the 
 # globally accessible scratch directory you want to map to
@@ -30,3 +30,10 @@ export HADOOP_MAX_MAPS=32
 
 # Maximum number of reducers per node
 export HADOOP_MAX_REDS=32
+
+
+######  !!!!!!!!!! DO NOT CHANGE !!!!!!! ######
+#Set data, log, and mapred directories
+export HADOOP_DATA=$HADOOP_DIR/data
+export HADOOP_LOG=$HADOOP_DIR/log
+export HADOOP_MAPRED=$HADOOP_DIR/mapred
